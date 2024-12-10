@@ -4,4 +4,6 @@ project(aoc24_cpp)
 set(CMAKE_CXX_STANDARD 17)
 add_compile_options(-Wall -Wextra -Wconversion -Wsign-conversion -Weffc++ -pedantic)
 
-add_executable(aoc24_cpp src/main.cpp)
+add_executable(aoc24_cpp src/main.cpp
+        src/utils.h
+)
