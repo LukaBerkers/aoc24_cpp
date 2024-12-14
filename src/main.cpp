@@ -1,6 +1,46 @@
+#include <spdlog/sinks/stdout_color_sinks.h>
+#include <spdlog/spdlog.h>
+
 #include <iostream>
+#include <utility>
+#include <vector>
+
+#include "day1/day1.h"
+
+using namespace aoc24;
+
+enum class ExitCode : int {
+    success = 0,
+    file_read_error,
+};
+
+void configure_logger() {
+    const auto logger{spdlog::stderr_color_st("main")};
+    logger->set_level(spdlog::level::info);
+    logger->set_pattern("%Y-%m-%d %T.%e%z [%^%l%$] %v");
+    spdlog::set_default_logger(logger);
+}
+
+ExitCode program() {
+    std::pair<std::vector<int>, std::vector<int>> location_lists;
+
+    try {
+        location_lists = day1::read_location_lists(day1::kLocationListsFilePath);
+    } catch (const std::runtime_error& error) {
+        spdlog::critical(error.what());
+        std::cerr << "Error: Failed to read the locations lists.\n";
+        return ExitCode::file_read_error;
+    }
+
+    std::cout << "First list:\n";
+    for (const auto& location : location_lists.first) std::cout << "  " << location << '\n';
+    std::cout << "Second list:\n";
+    for (const auto& location : location_lists.second) std::cout << "  " << location << '\n';
+    return ExitCode::success;
+}
 
 int main() {
-    std::cout << "Hello, World!" << std::endl;
-    return 0;
+    configure_logger();
+    const auto exit_code{program()};
+    return static_cast<int>(exit_code);
 }
