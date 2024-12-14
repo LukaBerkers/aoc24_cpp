@@ -14,8 +14,8 @@ find_package(spdlog REQUIRED)
 
 add_executable(aoc24_cpp src/main.cpp
         src/utils.h
-        src/day1/day1.cpp
-        src/day1/day1.h
+        src/AocException.cpp
+        src/AocException.h
 )
 
 target_link_libraries(aoc24_cpp PRIVATE lexy spdlog::spdlog)
