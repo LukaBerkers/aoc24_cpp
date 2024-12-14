@@ -4,6 +4,18 @@ project(aoc24_cpp)
 set(CMAKE_CXX_STANDARD 17)
 add_compile_options(-Wall -Wextra -Wconversion -Wsign-conversion -Weffc++ -pedantic)
 
+include(FetchContent)
+FetchContent_Declare(
+        lexy URL https://github.com/foonathan/lexy/releases/download/v2022.12.1/lexy-src.zip
+)
+FetchContent_MakeAvailable(lexy)
+
+find_package(spdlog REQUIRED)
+
 add_executable(aoc24_cpp src/main.cpp
         src/utils.h
+        src/day1/day1.cpp
+        src/day1/day1.h
 )
+
+target_link_libraries(aoc24_cpp PRIVATE lexy spdlog::spdlog)
