@@ -26,9 +26,9 @@ ExitCode program() {
 
     try {
         location_lists = day1::read_location_lists(day1::kLocationListsFilePath);
-    } catch (const std::runtime_error& error) {
-        spdlog::critical(error.what());
-        std::cerr << "Error: Failed to read the locations lists.\n";
+    } catch (const FileReadException& error) {
+        spdlog::critical(error.error_message());
+        std::cout << error.user_message() << '\n';
         return ExitCode::file_read_error;
     }
 
