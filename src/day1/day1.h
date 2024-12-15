@@ -17,8 +17,8 @@ const std::filesystem::path kLocationListsFilePath{utils::kInputDir / "test.txt"
  * @param file_path The path to the file containing the location data.
  *                  It must point to a valid and readable file.
  * @return A pair of vectors containing two lists of integers:
- *         - The first vector represents the first list of locations.
- *         - The second vector represents the second list of locations.
+ *         - The first vector represents the left list of locations.
+ *         - The second vector represents the right list of locations.
  * @throws FileReadException If the file cannot be opened or read.
  * @throws ParseException If the file content cannot be successfully parsed.
  */

@@ -33,9 +33,9 @@ struct LocationListsParser {
 
     static constexpr auto value{lexy::fold_inplace<std::pair<std::vector<int>, std::vector<int>>>(
         std::make_pair(std::vector<int>{}, std::vector<int>{}),
-        [](auto& pair, const int first_val, const int second_val) {
-            pair.first.push_back(first_val);
-            pair.second.push_back(second_val);
+        [](auto& pair, const int left_val, const int right_val) {
+            pair.first.push_back(left_val);
+            pair.second.push_back(right_val);
         })};
 };
 
