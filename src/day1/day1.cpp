@@ -1,5 +1,7 @@
 #include "day1.h"
 
+#include <spdlog/spdlog.h>
+
 #include <filesystem>
 #include <functional>
 #include <iterator>
@@ -49,6 +51,7 @@ struct LocationListsParser {
         lexy_ext::report_error.path(file_path.c_str()).to(std::back_inserter(error_message)))};
 
     if (!result.has_value()) throw ParseException{error_message};
+    if (!error_message.empty()) SPDLOG_ERROR(error_message);
     return result.value();
 }
 
