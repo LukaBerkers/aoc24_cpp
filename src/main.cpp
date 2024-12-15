@@ -33,9 +33,9 @@ ExitCode program() {
     }
 
     std::cout << "First list:\n";
-    for (const auto& location : location_lists.first) std::cout << "  " << location << '\n';
+    for (const int location : location_lists.first) std::cout << "  " << location << '\n';
     std::cout << "Second list:\n";
-    for (const auto& location : location_lists.second) std::cout << "  " << location << '\n';
+    for (const int location : location_lists.second) std::cout << "  " << location << '\n';
     return ExitCode::success;
 }
 
