@@ -12,6 +12,7 @@ using namespace aoc24;
 enum class ExitCode : int {
     success = 0,
     file_read_error,
+    parse_error,
 };
 
 void configure_logger() {
@@ -30,6 +31,10 @@ ExitCode program() {
         spdlog::critical(error.error_message());
         std::cout << error.user_message() << '\n';
         return ExitCode::file_read_error;
+    } catch (const ParseException& error) {
+        spdlog::critical(error.error_message());
+        std::cout << error.user_message() << '\n';
+        return ExitCode::parse_error;
     }
 
     std::cout << "First list:\n";
