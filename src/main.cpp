@@ -22,7 +22,7 @@ void configure_logger() {
 }
 
 ExitCode program() {
-    std::pair<std::vector<int>, std::vector<int>> location_lists;
+    std::pair<std::vector<int>, std::vector<int>> location_lists{};
 
     try {
         location_lists = day1::read_location_lists(day1::kLocationListsFilePath);
