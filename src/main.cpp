@@ -18,7 +18,7 @@ enum class ExitCode : int {
 void configure_logger() {
     const auto logger{spdlog::stderr_color_st("main")};
     logger->set_level(spdlog::level::info);
-    logger->set_pattern("%Y-%m-%d %T.%e%z [%^%l%$] %v");
+    logger->set_pattern("%Y-%m-%d %T.%e%z [%^%l%$] %s:%# - %v");
     spdlog::set_default_logger(logger);
 }
 
@@ -28,11 +28,11 @@ ExitCode program() {
     try {
         location_lists = day1::read_location_lists(day1::kLocationListsFilePath);
     } catch (const FileReadException& error) {
-        spdlog::critical(error.error_message());
+        SPDLOG_CRITICAL(error.error_message());
         std::cout << error.user_message() << '\n';
         return ExitCode::file_read_error;
     } catch (const ParseException& error) {
-        spdlog::critical(error.error_message());
+        SPDLOG_CRITICAL(error.error_message());
         std::cout << error.user_message() << '\n';
         return ExitCode::parse_error;
     }
