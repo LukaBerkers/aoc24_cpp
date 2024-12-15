@@ -48,9 +48,7 @@ struct LocationListsParser {
         input,
         lexy_ext::report_error.path(file_path.c_str()).to(std::back_inserter(error_message)))};
 
-    if (!result.has_value())
-        throw std::runtime_error{"Failed to parse the input:\n" + error_message};
-
+    if (!result.has_value()) throw ParseException{error_message};
     return result.value();
 }
 
