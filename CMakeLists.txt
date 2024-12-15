@@ -12,9 +12,9 @@ FetchContent_MakeAvailable(lexy)
 
 find_package(spdlog REQUIRED)
 
-add_executable(aoc24_cpp src/main.cpp
+add_executable(aoc24_cpp
+        src/main.cpp
         src/utils.h
-        src/AocException.cpp
         src/AocException.h
         src/day1/day1.cpp
         src/day1/day1.h
