@@ -40,12 +40,13 @@ struct LocationListsParser {
 }  // namespace
 
 [[nodiscard]] std::pair<std::vector<int>, std::vector<int>> parse_location_lists(
-    const std::string& file_contents) {
-    const auto input{lexy::string_input(file_contents)};
+    const std::string& file_contents, const std::filesystem::path& file_path) {
+    const auto input{lexy::string_input{file_contents}};
     std::string error_message{};
 
     const auto result{lexy::parse<LocationListsParser>(
-        input, lexy_ext::report_error.to(std::back_inserter(error_message)))};
+        input,
+        lexy_ext::report_error.path(file_path.c_str()).to(std::back_inserter(error_message)))};
 
     if (!result.has_value())
         throw std::runtime_error{"Failed to parse the input:\n" + error_message};
