@@ -34,16 +34,35 @@ const std::filesystem::path kLocationListsFilePath{utils::kInputDir / "day1.txt"
  * and so on.
  * All the calculated distances are returned in a vector.
  *
- * @remark
- * Note that this function requires ownership of the vector objects.
- * Use @c std::move if possible, or make a copy.
- *
  * @param left_list The left list of location IDs.
  * @param right_list The right list of location IDs.
  * @return The distances between each pair of location IDs.
+ *
+ * @remark
+ * Note that this function requires ownership of the vector objects.
+ * Use @c std::move if possible, or make a copy otherwise.
  */
 [[nodiscard]] std::vector<int> calculate_distances(std::vector<int>&& left_list,
                                                    std::vector<int>&& right_list);
+
+/**
+ * @brief Calculates the similarity score between the two location lists.
+ *
+ * The similarity score is calculated as follows:
+ * For each value in the left list, count how many times it appears in the right list.
+ * Then multiply that frequency by the value of the number that was counted
+ * and sum up all those numbers.
+ * This value is the similarity score.
+ *
+ * @param left_list The left list of location IDs.
+ * @param right_list The right list of location IDs.
+ *
+ * @remark
+ * Note that this function requires ownership of the vector object representing the right list.
+ * Use @c std::move if possible, or make a copy otherwise.
+ */
+[[nodiscard]] int calculate_similarity_score(const std::vector<int>& left_list,
+                                             std::vector<int>&& right_list);
 
 }  // namespace aoc24::day1
 

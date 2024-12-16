@@ -79,4 +79,29 @@ std::vector<int> calculate_distances(std::vector<int>&& left_list, std::vector<i
     return distances;
 }
 
+int calculate_similarity_score(const std::vector<int>& left_list, std::vector<int>&& right_list) {
+    // Sort the right list.
+    std::sort(right_list.begin(), right_list.end());
+
+    // Calculate the similarity score.
+    std::ptrdiff_t similarity_score{0};
+
+    for (const int left_val : left_list) {
+        // Get the frequency of `left_val` in the right list.
+        const auto [l, r] = std::equal_range(right_list.begin(), right_list.end(), left_val);
+        const auto frequency{std::distance(l, r)};
+        // Update the similarity score.
+        similarity_score += left_val * frequency;
+    }
+
+    // Check if the value is in range of the return type.
+    if (similarity_score < std::numeric_limits<int>::min() ||
+        similarity_score > std::numeric_limits<int>::max())
+        SPDLOG_ERROR("Similarity score is out of range. Calculated value: {}, returned value: {}",
+                     similarity_score, static_cast<int>(similarity_score));
+
+    // Return the similarity score.
+    return static_cast<int>(similarity_score);
+}
+
 }  // namespace aoc24::day1

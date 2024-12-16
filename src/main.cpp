@@ -38,11 +38,9 @@ ExitCode program() {
         return ExitCode::parse_error;
     }
 
-    const auto distances{day1::calculate_distances(std::move(location_lists.first),
-                                                   std::move(location_lists.second))};
-
-    const auto sum{std::accumulate(distances.begin(), distances.end(), 0)};
-    std::cout << "The sum of the distances is: " << sum << '\n';
+    const auto similarity_score{
+        day1::calculate_similarity_score(location_lists.first, std::move(location_lists.second))};
+    std::cout << "Similarity score: " << similarity_score << '\n';
     return ExitCode::success;
 }
 
