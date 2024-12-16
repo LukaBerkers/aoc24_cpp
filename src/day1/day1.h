@@ -9,6 +9,9 @@
 
 namespace aoc24::day1 {
 
+/**
+ * @brief The path to the file containing the location lists.
+ */
 const std::filesystem::path kLocationListsFilePath{utils::kInputDir / "day1.txt"};
 
 /**
