@@ -9,7 +9,7 @@
 
 namespace aoc24::day1 {
 
-const std::filesystem::path kLocationListsFilePath{utils::kInputDir / "test.txt"};
+const std::filesystem::path kLocationListsFilePath{utils::kInputDir / "day1.txt"};
 
 /**
  * @brief Reads location data from a file and returns two separate lists of integers.
