@@ -2,6 +2,8 @@
 
 #include <spdlog/spdlog.h>
 
+#include <algorithm>
+#include <cstddef>
 #include <filesystem>
 #include <functional>
 #include <iterator>
@@ -59,6 +61,22 @@ std::pair<std::vector<int>, std::vector<int>> read_location_lists(
     const std::filesystem::path& file_path) {
     const std::function file_parser{parse_location_lists};
     return utils::read_input_file(file_path, file_parser);
+}
+
+std::vector<int> calculate_distances(std::vector<int>&& left_list, std::vector<int>&& right_list) {
+    // Sort the vectors.
+    std::sort(left_list.begin(), left_list.end());
+    std::sort(right_list.begin(), right_list.end());
+
+    // Calculate the distances.
+    std::vector<int> distances{};
+    const std::size_t shortest_list_size{std::min(left_list.size(), right_list.size())};
+
+    for (std::size_t i{}; i < shortest_list_size; ++i)
+        distances.push_back(std::abs(left_list[i] - right_list[i]));
+
+    // Return the distances.
+    return distances;
 }
 
 }  // namespace aoc24::day1

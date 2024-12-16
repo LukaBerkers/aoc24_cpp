@@ -2,6 +2,7 @@
 #include <spdlog/spdlog.h>
 
 #include <iostream>
+#include <numeric>
 #include <utility>
 #include <vector>
 
@@ -37,10 +38,11 @@ ExitCode program() {
         return ExitCode::parse_error;
     }
 
-    std::cout << "First list:\n";
-    for (const int location : location_lists.first) std::cout << "  " << location << '\n';
-    std::cout << "Second list:\n";
-    for (const int location : location_lists.second) std::cout << "  " << location << '\n';
+    const auto distances{day1::calculate_distances(std::move(location_lists.first),
+                                                   std::move(location_lists.second))};
+
+    const auto sum{std::accumulate(distances.begin(), distances.end(), 0)};
+    std::cout << "The sum of the distances is: " << sum << '\n';
     return ExitCode::success;
 }
 
