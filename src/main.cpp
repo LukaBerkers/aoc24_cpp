@@ -2,11 +2,11 @@
 #include <spdlog/spdlog.h>
 
 #include <iostream>
-#include <numeric>
-#include <utility>
 #include <vector>
 
-#include "day1/day1.h"
+#include "AocException.h"
+#include "day2/Report.h"
+#include "day2/day2.h"
 
 using namespace aoc24;
 
@@ -24,10 +24,10 @@ void configure_logger() {
 }
 
 ExitCode program() {
-    std::pair<std::vector<int>, std::vector<int>> location_lists{};
+    std::vector<day2::Report> reports{};
 
     try {
-        location_lists = day1::read_location_lists(day1::kLocationListsFilePath);
+        reports = day2::read_reactor_data();
     } catch (const FileReadException& error) {
         SPDLOG_CRITICAL(error.error_message());
         std::cout << error.user_message() << '\n';
@@ -38,9 +38,8 @@ ExitCode program() {
         return ExitCode::parse_error;
     }
 
-    const auto similarity_score{
-        day1::calculate_similarity_score(location_lists.first, std::move(location_lists.second))};
-    std::cout << "Similarity score: " << similarity_score << '\n';
+    const auto safe_reports_count{day2::count_safe_reports(reports)};
+    std::cout << "There are " << safe_reports_count << " safe reports.\n";
     return ExitCode::success;
 }
 

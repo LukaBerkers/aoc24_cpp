@@ -19,6 +19,8 @@ add_executable(aoc24_cpp
         src/day1/day1.cpp
         src/day1/day1.h
         src/day2/Report.h
+        src/day2/day2.cpp
+        src/day2/day2.h
 )
 
 target_link_libraries(aoc24_cpp PRIVATE lexy spdlog::spdlog)
