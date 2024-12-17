@@ -18,6 +18,7 @@ add_executable(aoc24_cpp
         src/AocException.h
         src/day1/day1.cpp
         src/day1/day1.h
+        src/day2/Report.h
 )
 
 target_link_libraries(aoc24_cpp PRIVATE lexy spdlog::spdlog)
