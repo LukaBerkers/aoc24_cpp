@@ -1,26 +1,28 @@
 #ifndef AOC24_CPP_SRC_DAY2_REPORT_H_
 #define AOC24_CPP_SRC_DAY2_REPORT_H_
 
-#include <array>
 #include <cstddef>
+#include <initializer_list>
+#include <string>
+#include <vector>
 
 namespace aoc24::day2 {
 
 class Report final {
   public:
     using Level = int;
-    static constexpr std::size_t kLevelsPerReport{5};
 
   private:
-    std::array<Level, kLevelsPerReport> levels_{};
+    std::vector<Level> levels_{};
 
   public:
-    explicit Report(const std::array<Level, kLevelsPerReport>& levels) : levels_{levels} {}
+    explicit Report(const std::vector<Level>& levels) : levels_{levels} {}
 
-    Report(const Level a, const Level b, const Level c, const Level d, const Level e)
-        : levels_{a, b, c, d, e} {}
+    explicit Report(std::vector<Level>&& levels) : levels_{std::move(levels)} {}
 
-    [[nodiscard]] const std::array<Level, kLevelsPerReport>& levels() const { return levels_; }
+    Report(const std::initializer_list<Level> levels) : levels_{levels} {}
+
+    [[nodiscard]] const std::vector<Level>& levels() const { return levels_; }
 };
 
 }  // namespace aoc24::day2

@@ -24,11 +24,17 @@ namespace {
 namespace dsl = lexy::dsl;
 
 struct ReportParser {
-    static constexpr auto whitespace{dsl::ascii::blank};
+    struct Levels {
+        static constexpr auto level{dsl::integer<Report::Level>};
 
-    static constexpr auto level{dsl::integer<Report::Level>};
+        static constexpr auto level_sep{dsl::sep(dsl::ascii::blank)};
 
-    static constexpr auto rule{dsl::times<Report::kLevelsPerReport>(level)};
+        static constexpr auto rule{dsl::list(level, level_sep)};
+
+        static constexpr auto value{lexy::as_list<std::vector<Report::Level>>};
+    };
+
+    static constexpr auto rule{dsl::p<Levels>};
 
     static constexpr auto value{lexy::construct<Report>};
 };
@@ -54,18 +60,19 @@ std::vector<Report> read_reactor_data(const std::filesystem::path& file_path) {
 }
 
 [[nodiscard]] bool report_is_safe(const Report& report) {
-    static_assert(Report::kLevelsPerReport >= 2);
-    const auto levels{report.levels()};
+    const auto& levels{report.levels()};
+    const auto levels_count{levels.size()};
+    if (levels_count < 2) return true;
 
     if (levels[0] > levels[1]) {
-        for (std::size_t i{2}; i < Report::kLevelsPerReport; ++i) {
+        for (std::size_t i{2}; i < levels_count; ++i) {
             const auto diff{levels[i - 1] - levels[i]};
-            if (diff <= 0 || diff > 3) return false;
+            if (diff < 1 || diff > 3) return false;
         }
     } else if (levels[0] < levels[1]) {
-        for (std::size_t i{2}; i < Report::kLevelsPerReport; ++i) {
+        for (std::size_t i{2}; i < levels_count; ++i) {
             const auto diff{levels[i] - levels[i - 1]};
-            if (diff <= 0 || diff > 3) return false;
+            if (diff < 1 || diff > 3) return false;
         }
     } else {
         return false;
