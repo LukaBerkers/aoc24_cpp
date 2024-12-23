@@ -15,9 +15,23 @@ namespace aoc24::day2 {
  */
 const std::filesystem::path kReactorDataFilePath{utils::kInputDir / "day2.txt"};
 
+/**
+ * @brief Reads and parses the reactor data from the specified source file.
+ *
+ * @param file_path The path to the file containing the reactor data.
+ * @return A vector containing each report of reactor data.
+ * @throws FileReadException If the file cannot be opened or read.
+ * @throws ParseException If the file content cannot be successfully parsed.
+ */
 [[nodiscard]] std::vector<Report> read_reactor_data(
     const std::filesystem::path& file_path = kReactorDataFilePath);
 
+/**
+ * @brief Counts the number of safe reports in the given collection.
+ *
+ * @param reports A collection to analyze for safe reports.
+ * @return The total count of safe reports in the provided data.
+ */
 [[nodiscard]] std::ptrdiff_t count_safe_reports(const std::vector<Report>& reports);
 
 }  // namespace aoc24::day2
