@@ -65,12 +65,12 @@ std::vector<Report> read_reactor_data(const std::filesystem::path& file_path) {
     if (levels_count < 2) return true;
 
     if (levels[0] > levels[1]) {
-        for (std::size_t i{2}; i < levels_count; ++i) {
+        for (std::size_t i{1}; i < levels_count; ++i) {
             const auto diff{levels[i - 1] - levels[i]};
             if (diff < 1 || diff > 3) return false;
         }
     } else if (levels[0] < levels[1]) {
-        for (std::size_t i{2}; i < levels_count; ++i) {
+        for (std::size_t i{1}; i < levels_count; ++i) {
             const auto diff{levels[i] - levels[i - 1]};
             if (diff < 1 || diff > 3) return false;
         }
