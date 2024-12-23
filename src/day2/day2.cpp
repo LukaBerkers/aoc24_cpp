@@ -1,5 +1,7 @@
 #include "day2.h"
 
+#define SPDLOG_ACTIVE_LEVEL SPDLOG_LEVEL_INFO
+
 #include <spdlog/spdlog.h>
 
 #include <algorithm>
