@@ -34,6 +34,20 @@ const std::filesystem::path kReactorDataFilePath{utils::kInputDir / "day2.txt"};
  */
 [[nodiscard]] std::ptrdiff_t count_safe_reports(const std::vector<Report>& reports);
 
+/**
+ * @brief Counts safe reports when using the problem dampener.
+ *
+ * This function analyzes the provided reports to count the number of safe ones
+ * when applying additional adjustments defined by the "problem dampener" mechanism.
+ *
+ * @param reports A collection of reports to evaluate.
+ * @return The count of safe reports when using the problem dampener logic.
+ * @throw OverflowException Possibly, when the collection is larger than
+ *                          @c std::numeric_limits<std::ptrdiff_t>::max().
+ */
+[[nodiscard]] std::ptrdiff_t count_safe_reports_with_problem_dampener(
+    const std::vector<Report>& reports);
+
 }  // namespace aoc24::day2
 
 #endif  // AOC24_CPP_SRC_DAY2_DAY2_H_

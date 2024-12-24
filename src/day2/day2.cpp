@@ -11,6 +11,7 @@
 #include <lexy/dsl.hpp>
 #include <lexy/input/string_input.hpp>
 #include <lexy_ext/report_error.hpp>
+#include <limits>
 #include <string>
 #include <vector>
 
@@ -87,6 +88,43 @@ std::vector<Report> read_reactor_data(const std::filesystem::path& file_path) {
 
 std::ptrdiff_t count_safe_reports(const std::vector<Report>& reports) {
     return std::count_if(reports.begin(), reports.end(), report_is_safe);
+}
+
+[[nodiscard]] bool report_is_safe_with_problem_dampener(const Report& report) {
+    const auto problem_index_as_size_t{report_is_safe_until(report)};
+    // Return true if the report is safe on its own.
+    if (problem_index_as_size_t == report.levels().size()) return true;
+
+    // Check the range and convert to std::ptrdiff_t.
+    if (problem_index_as_size_t > std::numeric_limits<std::ptrdiff_t>::max())
+        throw OverflowException{"Problem index is out of range. Index was: " +
+                                std::to_string(problem_index_as_size_t)};
+
+    const auto problem_index{static_cast<std::ptrdiff_t>(problem_index_as_size_t)};
+    // Retry with the element before the problem index removed.
+    auto dampened_report{report};
+    auto& levels{dampened_report.levels()};
+    levels.erase(levels.cbegin() + problem_index - 1);
+    if (report_is_safe_until(dampened_report) == levels.size()) return true;
+    // Retry with the element at the problem index removed.
+    dampened_report = report;
+    levels = dampened_report.levels();
+    levels.erase(levels.cbegin() + problem_index);
+    if (report_is_safe_until(dampened_report) == levels.size()) return true;
+
+    // If the problem index is two, we also need to try with the first element removed.
+    if (problem_index == 2) {
+        dampened_report = report;
+        levels = dampened_report.levels();
+        levels.erase(levels.cbegin());
+        if (report_is_safe_until(dampened_report) == levels.size()) return true;
+    }
+
+    return false;
+}
+
+std::ptrdiff_t count_safe_reports_with_problem_dampener(const std::vector<Report>& reports) {
+    return std::count_if(reports.begin(), reports.end(), report_is_safe_with_problem_dampener);
 }
 
 }  // namespace aoc24::day2

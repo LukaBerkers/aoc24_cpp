@@ -40,7 +40,16 @@ ExitCode program() {
         return ExitCode::parse_error;
     }
 
-    const auto safe_reports_count{day2::count_safe_reports(reports)};
+    std::ptrdiff_t safe_reports_count{};
+
+    try {
+        safe_reports_count = day2::count_safe_reports_with_problem_dampener(reports);
+    } catch (const OverflowException& error) {
+        SPDLOG_CRITICAL(error.error_message());
+        std::cout << error.user_message() << '\n';
+        return ExitCode::parse_error;
+    }
+
     std::cout << "There are " << safe_reports_count << " safe reports.\n";
     return ExitCode::success;
 }
