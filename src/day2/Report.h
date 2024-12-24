@@ -101,6 +101,13 @@ class Report final {
      * @return A constant reference to a vector containing the levels of the report.
      */
     [[nodiscard]] const std::vector<Level>& levels() const { return levels_; }
+
+    /**
+     * @brief Get the levels of the report.
+     *
+     * @return A mutable reference to a vector containing the levels of the report.
+     */
+    [[nodiscard]] std::vector<Level>& levels() { return levels_; }
 };
 
 }  // namespace aoc24::day2
