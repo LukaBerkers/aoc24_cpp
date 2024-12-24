@@ -59,26 +59,30 @@ std::vector<Report> read_reactor_data(const std::filesystem::path& file_path) {
     return utils::read_input_lines(file_path, line_parser);
 }
 
-[[nodiscard]] bool report_is_safe(const Report& report) {
+[[nodiscard]] std::size_t report_is_safe_until(const Report& report) {
     const auto& levels{report.levels()};
     const auto levels_count{levels.size()};
-    if (levels_count < 2) return true;
+    if (levels_count < 2) return levels_count;
 
     if (levels[0] > levels[1]) {
         for (std::size_t i{1}; i < levels_count; ++i) {
             const auto diff{levels[i - 1] - levels[i]};
-            if (diff < 1 || diff > 3) return false;
+            if (diff < 1 || diff > 3) return i;
         }
     } else if (levels[0] < levels[1]) {
         for (std::size_t i{1}; i < levels_count; ++i) {
             const auto diff{levels[i] - levels[i - 1]};
-            if (diff < 1 || diff > 3) return false;
+            if (diff < 1 || diff > 3) return i;
         }
     } else {
-        return false;
+        return 1;
     }
 
-    return true;
+    return levels_count;
+}
+
+[[nodiscard]] bool report_is_safe(const Report& report) {
+    return report_is_safe_until(report) == report.levels().size();
 }
 
 std::ptrdiff_t count_safe_reports(const std::vector<Report>& reports) {
