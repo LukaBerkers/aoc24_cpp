@@ -54,6 +54,48 @@ class Report final {
     Report(const std::initializer_list<Level> levels) : levels_{levels} {}
 
     /**
+     * @brief Copy constructor.
+     *
+     * @param other The @c Report to copy from.
+     */
+    Report(const Report& other) = default;
+
+    /**
+     * @brief Move constructor.
+     * @param other The @c Report to move out of.
+     */
+    Report(Report&& other) noexcept : levels_{std::move(other.levels_)} {}
+
+    /**
+     * @brief Copy assignment operator.
+     *
+     * @param other The @c Report to copy from
+     * @return A reference to this object.
+     */
+    Report& operator=(const Report& other) {
+        if (this == &other) return *this;
+        levels_ = other.levels_;
+        return *this;
+    }
+
+    /**
+     * @brief Move assignment operator.
+     *
+     * @param other The @c Report to move out of.
+     * @return A reference to this object.
+     */
+    Report& operator=(Report&& other) noexcept {
+        if (this == &other) return *this;
+        levels_ = std::move(other.levels_);
+        return *this;
+    }
+
+    /**
+     * @brief Safely destruct this object.
+     */
+    ~Report() = default;
+
+    /**
      * @brief Get the levels of the report.
      *
      * @return A constant reference to a vector containing the levels of the report.
