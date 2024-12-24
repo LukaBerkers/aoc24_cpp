@@ -149,6 +149,57 @@ class ParseException final : public AocException {
     [[nodiscard]] std::string_view user_message() const override { return user_message_; }
 };
 
+/**
+ * @brief Exception class for overflow errors.
+ *
+ * This exception is thrown when an integer overflow is detected
+ * and provides both a detailed error message for logging
+ * and a user-friendly message for end-users.
+ */
+class OverflowException final : public AocException {
+    const std::string error_message_{};
+    static constexpr auto user_message_{"Overflow detected. See the log for details."};
+
+  public:
+    /**
+     * @brief Constructs an OverflowException with a detailed error message.
+     *
+     * @param error_message A string view containing specific details about the overflow error.
+     */
+    explicit OverflowException(const std::string_view error_message) noexcept
+        : error_message_{create_message(error_message)} {}
+
+    /**
+     * @brief Returns a C-style string describing the error and its cause.
+     *
+     * This function is mainly included
+     * so that a message is shown upon termination when the exception is never caught.
+     * Use of @c error_message or @c user_message is preferred
+     * to get a string view describing the error.
+     *
+     * @return A pointer to a null-terminated string containing the error message.
+     */
+    [[nodiscard]] const char* what() const noexcept override { return error_message_.c_str(); }
+
+    /**
+     * @brief Retrieves the detailed error message written for logging.
+     * @return A string view representing the detailed error message.
+     */
+    [[nodiscard]] std::string_view error_message() const override { return error_message_; }
+
+    /**
+     * @brief Retrieves a user-friendly error message intended for displaying to end-users.
+     * @return A string view containing the user-friendly error message.
+     */
+    [[nodiscard]] std::string_view user_message() const override { return user_message_; }
+
+  private:
+    [[nodiscard]] static std::string create_message(
+        const std::string_view error_message) noexcept {
+        return "Overflow detected: " + std::string{error_message} + '.';
+    }
+};
+
 }  // namespace aoc24
 
 #endif  // AOC24_CPP_SRC_AOC_EXCEPTION_H_
