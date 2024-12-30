@@ -14,7 +14,11 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+#ifndef NDEBUG
+#define SPDLOG_ACTIVE_LEVEL SPDLOG_LEVEL_TRACE
+#else
 #define SPDLOG_ACTIVE_LEVEL SPDLOG_LEVEL_INFO
+#endif
 
 #include <spdlog/sinks/stdout_color_sinks.h>
 #include <spdlog/spdlog.h>
